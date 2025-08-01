@@ -1,10 +1,6 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const runtime = "edge";
 
 export async function POST(req: Request) {
@@ -17,6 +13,10 @@ export async function POST(req: Request) {
     frequency_penalty,
     presence_penalty,
   } = await req.json();
+
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY!,
+  });
 
   const response = await openai.chat.completions.create({
     stream: true,
